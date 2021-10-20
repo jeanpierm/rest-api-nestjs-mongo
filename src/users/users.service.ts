@@ -17,15 +17,24 @@ export class UsersService {
     return user;
   }
 
+  async getUserByEmail(email: string): Promise<User> {
+    const user = await this.usersRepository.findOne({ email });
+    if (!user) {
+      throw new NotFoundException(`No existe el usuario ${email}`);
+    }
+    return user;
+  }
+
   async getUsers(): Promise<User[]> {
     return this.usersRepository.find({});
   }
 
   async createUser(user: CreateUserDto): Promise<User> {
-    const { email, age } = user;
+    const { email, password, age } = user;
     return this.usersRepository.create({
       userId: uuidv4(),
       email,
+      password,
       age,
       favoriteFoods: [],
     });

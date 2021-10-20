@@ -5,28 +5,34 @@
 @userId = da0dd04b-76dc-4520-b3e7-318b039f3a2
 
 ###
-
 GET http://{{host}}/users
 
 ###
-
 GET http://{{host}}/users/{{userId}}
 
 ###
-
 POST http://{{host}}/users
 content-type: {{contentType}}
 
 {
   "email": "jeanpi3rm@gmail.com",
+  "password": "1234",
   "age": 22
 }
 
 ###
-
 PATCH http://{{host}}/users/{{userId}}
 content-type: {{contentType}}
 
 {
-  "favoriteFoods": ["huevos", "leche"]
+  "password": "1234"
+}
+
+###
+POST http://{{host}}/auth/login
+content-type: {{contentType}}
+
+{
+  "email": "jeanpi3rm@gmail.com",
+  "password": "1234"
 }

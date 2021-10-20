@@ -5,5 +5,6 @@
 
 export class UpdateUserDto {
   favoriteFoods: string[];
+  password: string;
   age: number;
 }
