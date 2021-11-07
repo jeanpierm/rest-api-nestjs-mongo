@@ -29,7 +29,7 @@ export class UsersRepository {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  remove(userFilterQuery: FilterQuery<UserDocument>) {
+    return this.userModel.findOneAndRemove(userFilterQuery);
   }
 }
