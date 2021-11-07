@@ -6,7 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schemas/user.schema';
@@ -21,7 +23,9 @@ export class UsersController {
     return this.usersService.getUsers();
   }
 
+  // ruta protegida con JWT
   @Get(':userId')
+  @UseGuards(JwtAuthGuard)
   async findOne(@Param('userId') userId: string): Promise<User> {
     try {
       return this.usersService.getUserById(userId);

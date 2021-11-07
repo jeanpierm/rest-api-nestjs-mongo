@@ -7,17 +7,18 @@ import { User, UserDocument } from './schemas/user.schema';
 export class UsersRepository {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(user: User): Promise<User> {
-    const newUser = new this.userModel(user);
-    return newUser.save();
-  }
-
   async find(userFilterQuery: FilterQuery<UserDocument>): Promise<User[]> {
     return this.userModel.find(userFilterQuery);
   }
 
   async findOne(userFilterQuery: FilterQuery<UserDocument>): Promise<User> {
-    return this.userModel.findOne(userFilterQuery);
+    const user = await this.userModel.findOne(userFilterQuery);
+    return user;
+  }
+
+  async create(user: User): Promise<User> {
+    const newUser = new this.userModel(user);
+    return newUser.save();
   }
 
   async findOneAndUpdate(

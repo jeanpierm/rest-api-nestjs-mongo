@@ -9,6 +9,10 @@ import { UsersRepository } from './users.repository';
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
+  async getUsers(): Promise<User[]> {
+    return this.usersRepository.find({});
+  }
+
   async getUserById(userId: string): Promise<User> {
     const user = await this.usersRepository.findOne({ userId });
     if (!user) {
@@ -23,10 +27,6 @@ export class UsersService {
       throw new NotFoundException(`No existe el usuario ${email}`);
     }
     return user;
-  }
-
-  async getUsers(): Promise<User[]> {
-    return this.usersRepository.find({});
   }
 
   async createUser(user: CreateUserDto): Promise<User> {

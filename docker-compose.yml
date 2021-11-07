@@ -2,9 +2,9 @@ version: '3.8'
 services:
   mongo:
     image: mongo
-    environment:
-      - PUID=1000
-      - PGID=1000
+    # environment:
+    #   - PUID=1000
+    #   - PGID=1000
     volumes:
       - ./database:/data/db
     ports:

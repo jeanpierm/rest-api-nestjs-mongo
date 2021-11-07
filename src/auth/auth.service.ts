@@ -16,8 +16,8 @@ export class AuthService {
     const passwordIsValid = user.password === pass;
     if (passwordIsValid) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-      return result;
+      const { userId, email } = user;
+      return { userId, email };
     }
     return null;
   }
