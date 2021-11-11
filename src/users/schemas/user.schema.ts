@@ -8,7 +8,7 @@ export type UserDocument = User & Document;
 @Schema()
 export class User {
   @ApiProperty(UsersConfig.API_PROP_ID)
-  @Prop()
+  @Prop({ required: true })
   userId: string;
 
   @ApiProperty(UsersConfig.API_PROP_EMAIL)
