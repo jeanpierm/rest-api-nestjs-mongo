@@ -28,6 +28,16 @@
 npm install
 ```
 
+## Running the mongodb container with docker-compose
+
+```bash
+# up container
+$ docker-compose up -d
+
+# down container
+$ docker-compose down
+```
+
 ## Running the app
 
 ```bash
@@ -40,3 +50,11 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+## Captures
+
+![Swagger UI of API RESTful](https://github.com/jeanp0/rest-api-nestjs-mongo/blob/main/captures/1.png?raw=true)
+![Schemas of API RESTful](https://github.com/jeanp0/rest-api-nestjs-mongo/blob/main/captures/2.png?raw=true)
+![Test login endpoint](https://github.com/jeanp0/rest-api-nestjs-mongo/blob/main/captures/3.png?raw=true)
+![Test get user by id endpoint without token](https://github.com/jeanp0/rest-api-nestjs-mongo/blob/main/captures/5.png?raw=true)
+![Test get user by id endpoint with token](https://github.com/jeanp0/rest-api-nestjs-mongo/blob/main/captures/4.png?raw=true)
