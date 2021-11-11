@@ -4,18 +4,19 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerConfig } from './config/swagger.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Swagger OpenAPI config
   const config = new DocumentBuilder()
-    .setTitle('NestJS RESTful API example')
-    .setDescription('The NestJS API description')
-    .setVersion('1.0')
+    .setTitle(SwaggerConfig.TITLE)
+    .setDescription(SwaggerConfig.DESCRIPTION)
+    .setVersion(SwaggerConfig.VERSION)
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup(SwaggerConfig.PATH, app, document);
 
   // validation pipe
   app.useGlobalPipes(new ValidationPipe());

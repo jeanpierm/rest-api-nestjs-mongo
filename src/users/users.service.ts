@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateUserDto } from './dto/create-user.dto';
+import { DeleteUserResponse } from './dto/delete-response';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserDocument } from './schemas/user.schema';
 
@@ -48,7 +49,7 @@ export class UsersService {
     });
   }
 
-  async deleteUser(userId: string): Promise<User> {
+  async deleteUser(userId: string): Promise<DeleteUserResponse> {
     return this.userModel.remove({ userId });
   }
 }

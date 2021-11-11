@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/schemas/user.schema';
 import { UsersService } from 'src/users/users.service';
 import { JwtPayload } from './dto/jwt-payload.dto';
+import { LoginResponse } from './dto/login-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +31,7 @@ export class AuthService {
     return user;
   }
 
-  async login(user: User): Promise<{ accessToken: string }> {
+  async login(user: User): Promise<LoginResponse> {
     const payload: JwtPayload = {
       email: user.email,
       sub: user.userId,
