@@ -16,7 +16,12 @@ async function bootstrap() {
     .setVersion(SwaggerConfig.VERSION)
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup(SwaggerConfig.PATH, app, document);
+  SwaggerModule.setup(SwaggerConfig.PATH, app, document, {
+    swaggerOptions: {
+      filter: true,
+      showRequestDuration: true,
+    },
+  });
 
   // validation pipe
   app.useGlobalPipes(new ValidationPipe());

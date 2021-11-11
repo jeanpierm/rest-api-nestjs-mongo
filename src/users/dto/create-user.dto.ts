@@ -1,22 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsEmail, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { UsersConfig } from 'src/config/users.config';
+import { UserSchemaConfig } from '../config/user.schema.config';
 
 export class CreateUserDto {
-  @ApiProperty(UsersConfig.API_PROP_EMAIL)
+  @ApiProperty(UserSchemaConfig.API_PROP_EMAIL)
   @IsEmail()
   email: string;
 
-  @ApiProperty(UsersConfig.API_PROP_PASSWORD)
+  @ApiProperty(UserSchemaConfig.API_PROP_PASSWORD)
   @IsNotEmpty()
+  @IsString()
   password: string;
 
-  @ApiProperty(UsersConfig.API_PROP_AGE)
+  @ApiProperty(UserSchemaConfig.API_PROP_AGE)
   @IsOptional()
   @IsInt()
   age: number;
 
-  @ApiProperty(UsersConfig.API_PROP_FAVORITE_FOODS)
+  @ApiProperty(UserSchemaConfig.API_PROP_FAVORITE_FOODS)
   @IsOptional()
   @IsArray()
   @IsString({ each: true })

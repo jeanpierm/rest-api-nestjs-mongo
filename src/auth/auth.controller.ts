@@ -1,6 +1,6 @@
 import { Controller, Post, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AuthConfig } from 'src/config/auth.config';
+import { AuthConfig } from 'src/auth/config/auth.config';
 import { User } from 'src/users/schemas/user.schema';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './current-user.decorator';

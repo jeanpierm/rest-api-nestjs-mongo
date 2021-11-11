@@ -1,29 +1,29 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
-import { UsersConfig } from 'src/config/users.config';
+import { UserSchemaConfig } from '../config/user.schema.config';
 
 export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-  @ApiProperty(UsersConfig.API_PROP_ID)
+  @ApiProperty(UserSchemaConfig.API_PROP_ID)
   @Prop({ required: true })
   userId: string;
 
-  @ApiProperty(UsersConfig.API_PROP_EMAIL)
+  @ApiProperty(UserSchemaConfig.API_PROP_EMAIL)
   @Prop({ required: true })
   email: string;
 
-  @ApiProperty(UsersConfig.API_PROP_PASSWORD)
+  @ApiProperty(UserSchemaConfig.API_PROP_PASSWORD)
   @Prop({ required: true })
   password: string;
 
-  @ApiProperty(UsersConfig.API_PROP_AGE)
+  @ApiProperty(UserSchemaConfig.API_PROP_AGE)
   @Prop()
   age: number;
 
-  @ApiProperty(UsersConfig.API_PROP_FAVORITE_FOODS)
+  @ApiProperty(UserSchemaConfig.API_PROP_FAVORITE_FOODS)
   @Prop([String])
   favoriteFoods: string[];
 }
