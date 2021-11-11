@@ -53,8 +53,22 @@ $ npm run start:prod
 
 ## Captures
 
+### Swagger UI of API RESTful
+
 ![Swagger UI of API RESTful](https://github.com/jeanp0/rest-api-nestjs-mongo/blob/main/captures/1.png?raw=true)
+
+### Schemas of API RESTful
+
 ![Schemas of API RESTful](https://github.com/jeanp0/rest-api-nestjs-mongo/blob/main/captures/2.png?raw=true)
+
+### Test login endpoint
+
 ![Test login endpoint](https://github.com/jeanp0/rest-api-nestjs-mongo/blob/main/captures/3.png?raw=true)
+
+### Test get user by id endpoint without token
+
 ![Test get user by id endpoint without token](https://github.com/jeanp0/rest-api-nestjs-mongo/blob/main/captures/5.png?raw=true)
+
+### Test get user by id endpoint with token
+
 ![Test get user by id endpoint with token](https://github.com/jeanp0/rest-api-nestjs-mongo/blob/main/captures/4.png?raw=true)
