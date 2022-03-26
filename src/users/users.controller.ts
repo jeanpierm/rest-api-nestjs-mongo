@@ -1,55 +1,74 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { UserConfig } from 'src/users/config/user.config';
 import { CreateUserDto } from './dto/create-user.dto';
 import { DeleteUserResponse } from './dto/delete-response.dto';
+import { FindOneParams } from './dto/find-one-params.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schemas/user.schema';
 import { UsersService } from './users.service';
 
-@ApiTags(UserConfig.TAG)
-@Controller(UserConfig.PATH)
+// @UseInterceptors(ClassSerializerInterceptor)
+@ApiTags('users')
+@Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  @ApiOperation(UserConfig.API_OP_GET_ALL)
-  @ApiOkResponse(UserConfig.API_RES_GET_ALL)
+  @ApiOperation({ description: 'Get all users' })
+  @ApiOkResponse({
+    description: 'The users were successfully obtained.',
+    type: [User],
+  })
   async getAll(): Promise<User[]> {
-    return this.usersService.getUsers();
+    return this.usersService.findAll();
   }
 
-  // ruta protegida con JWT
-  @Get(UserConfig.ID_PATH)
-  @ApiOperation(UserConfig.API_OP_GET_BY_ID)
-  @ApiOkResponse(UserConfig.API_RES_GET_BY_ID)
-  @UseGuards(JwtAuthGuard)
-  async getById(@Param(UserConfig.ID_PARAM) userId: string): Promise<User> {
-    return this.usersService.getUserById(userId);
+  @Get(':userId')
+  @ApiOperation({
+    description: 'Get a user by userId.',
+  })
+  @ApiOkResponse({
+    description: 'The user was successfully obtained.',
+    type: User,
+  })
+  async getById(@Param() { userId }: FindOneParams): Promise<User> {
+    return this.usersService.findById(userId);
   }
 
   @Post()
-  @ApiOperation(UserConfig.API_OP_CREATE)
-  @ApiCreatedResponse(UserConfig.API_RES_CREATE)
+  @ApiOperation({ description: 'Create a user.' })
+  @ApiCreatedResponse({
+    description: 'The user has been successfully created.',
+    type: User,
+  })
   async create(@Body() user: CreateUserDto): Promise<User> {
-    return this.usersService.createUser(user);
+    return this.usersService.create(user);
   }
 
-  @Patch(UserConfig.ID_PATH)
-  @ApiOperation(UserConfig.API_OP_UPDATE_BY_ID)
-  @ApiOkResponse(UserConfig.API_RES_UPDATE_BY_ID)
-  async updateById(
-    @Param(UserConfig.ID_PARAM) userId: string,
+  @Patch(':userId')
+  @ApiOperation({
+    description: 'Update a user by userId.',
+  })
+  @ApiOkResponse({
+    description: 'The user was successfully updated.',
+    type: User,
+  })
+  async update(
+    @Param() { userId }: FindOneParams,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<User> {
-    return this.usersService.updateUser(userId, updateUserDto);
+    return this.usersService.updateById(userId, updateUserDto);
   }
 
-  @Delete(UserConfig.ID_PATH)
-  @ApiOperation(UserConfig.API_OP_DELETE_BY_ID)
-  @ApiOkResponse(UserConfig.API_RES_DELETE_BY_ID)
-  async deleteById(@Param(UserConfig.ID_PARAM) userId: string): Promise<DeleteUserResponse> {
-    return this.usersService.deleteUser(userId);
+  @Delete(':userId')
+  @ApiOperation({
+    description: 'Delete a user by userId.',
+  })
+  @ApiOkResponse({
+    description: 'The user was successfully deleted.',
+    type: DeleteUserResponse,
+  })
+  async deleteById(@Param() { userId }: FindOneParams): Promise<DeleteUserResponse> {
+    return this.usersService.remove(userId);
   }
 }

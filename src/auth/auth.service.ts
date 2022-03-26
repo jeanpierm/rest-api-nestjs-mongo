@@ -13,7 +13,7 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, pass: string): Promise<any> | null {
-    const user = await this.usersService.getUserByEmail(email);
+    const user = await this.usersService.findByEmail(email);
     const passwordIsValid = user.password === pass;
     if (passwordIsValid) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,7 +27,7 @@ export class AuthService {
     const decoded: JwtPayload = this.jwtService.verify(token, {
       secret: process.env.JWT_SECRET,
     });
-    const user = await this.usersService.getUserByEmail(decoded.email);
+    const user = await this.usersService.findByEmail(decoded.email);
     return user;
   }
 

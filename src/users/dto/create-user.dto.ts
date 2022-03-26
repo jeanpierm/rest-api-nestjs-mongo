@@ -1,25 +1,45 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsArray, IsEmail, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { UserSchemaConfig } from '../config/user.schema.config';
+import { IsArray, IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateUserDto {
-  @ApiProperty(UserSchemaConfig.API_PROP_EMAIL)
+  @ApiProperty({
+    example: 'jeanpi3rm@gmail.com',
+    description: 'The email of the user',
+  })
   @IsEmail()
   email: string;
 
-  @ApiProperty(UserSchemaConfig.API_PROP_PASSWORD)
+  @ApiProperty({
+    example: 'Jeanpier',
+    description: 'The name of the user',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly name: string;
+
+  @ApiProperty({
+    example: 'Mendoza',
+    description: 'The surname of the user',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly surname: string;
+
+  @ApiProperty({
+    example: '1234',
+    description: 'The password of the user',
+  })
   @IsNotEmpty()
   @IsString()
   password: string;
 
-  @ApiProperty(UserSchemaConfig.API_PROP_AGE)
-  @IsOptional()
-  @IsInt()
-  age: number;
-
-  @ApiProperty(UserSchemaConfig.API_PROP_FAVORITE_FOODS)
+  @ApiProperty({
+    example: 22,
+    description: 'The age of the user',
+    required: false,
+  })
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  favoriteFoods: string[];
+  favoriteFoods?: string[];
 }

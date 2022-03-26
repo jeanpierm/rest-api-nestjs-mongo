@@ -1,55 +1,56 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { hash } from 'bcrypt';
+import { randomUUID } from 'crypto';
 import { Model } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
 import { CreateUserDto } from './dto/create-user.dto';
 import { DeleteUserResponse } from './dto/delete-response.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './schemas/user.schema';
+import { User, UserDocument } from './schemas/user.schema';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
+  constructor(@InjectModel(User.name) private readonly userModel: Model<UserDocument>) {}
 
-  async getUsers(): Promise<User[]> {
-    return this.userModel.find().exec();
+  async findAll(): Promise<User[]> {
+    return this.userModel.find().lean();
   }
 
-  async getUserById(userId: string): Promise<User> {
-    const user = await this.userModel.findOne({ userId }).exec();
+  async findById(userId: string): Promise<User> {
+    const user = await this.userModel.findOne({ userId }).lean();
     if (!user) {
       throw new NotFoundException(`No existe el usuario ${userId}`);
     }
     return user;
   }
 
-  async getUserByEmail(email: string): Promise<User> {
-    const user = await this.userModel.findOne({ email }).exec();
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.userModel.findOne({ email }).lean();
     if (!user) {
       throw new NotFoundException(`No existe el usuario ${email}`);
     }
     return user;
   }
 
-  async createUser(user: CreateUserDto): Promise<User> {
-    const { email, password, age, favoriteFoods } = user;
-    const newUser = new this.userModel({
-      userId: uuidv4(),
-      email,
-      password,
-      age,
-      favoriteFoods,
-    });
-    return newUser.save();
+  async create(user: CreateUserDto): Promise<User> {
+    const alreadyExists = await this.userModel.exists({ email: user.email }).lean();
+    if (alreadyExists) {
+      throw new ConflictException(`User with that email already exists`);
+    }
+    const passwordHash = await hash(user.password, 10);
+    const userToCreate: User = { ...user, userId: randomUUID(), password: passwordHash };
+    return this.userModel.create(userToCreate);
   }
 
-  async updateUser(userId: string, userUpdates: UpdateUserDto): Promise<User> {
-    return this.userModel.findOneAndUpdate({ userId }, userUpdates, {
-      new: true,
-    });
+  async updateById(userId: string, userUpdates: UpdateUserDto): Promise<User> {
+    return this.userModel
+      .findOneAndUpdate({ userId }, userUpdates, {
+        new: true,
+      })
+      .lean();
   }
 
-  async deleteUser(userId: string): Promise<DeleteUserResponse> {
-    return this.userModel.deleteOne({ userId });
+  async remove(userId: string): Promise<DeleteUserResponse> {
+    return this.userModel.deleteOne({ userId }).lean();
   }
 }

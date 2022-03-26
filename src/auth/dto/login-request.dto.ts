@@ -1,10 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AuthSchemaConfig } from '../config/auth.schema.config';
 
 export class LoginRequest {
-  @ApiProperty(AuthSchemaConfig.API_PROP_EMAIL)
+  @ApiProperty({
+    example: 'jeanpi3rm@gmail.com',
+    description: 'The email of the user',
+  })
   email: string;
 
-  @ApiProperty(AuthSchemaConfig.API_PROP_PASSWORD)
+  @ApiProperty({
+    example: '1234',
+    description: 'The password of the user',
+  })
   password: string;
 }

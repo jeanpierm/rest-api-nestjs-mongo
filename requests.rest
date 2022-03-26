@@ -1,27 +1,29 @@
 @hostname = localhost
 @port = 3000
+@prefix = api/v1
 @host = {{hostname}}:{{port}}
 @contentType = application/json
-@userId = da0dd04b-76dc-4520-b3e7-318b039f3a2
+@userId = 511a3e2f-cb02-4a1a-94ed-ee3eb24cec8c
 
 ###
-GET http://{{host}}/users
+GET http://{{host}}/{{prefix}}/users
 
 ###
-GET http://{{host}}/users/{{userId}}
+GET http://{{host}}/{{prefix}}/users/{{userId}}
 
 ###
-POST http://{{host}}/users
+POST http://{{host}}/{{prefix}}/users
 content-type: {{contentType}}
 
 {
   "email": "jeanpi3rm@gmail.com",
   "password": "1234",
-  "age": 22
+  "name": "Jeanpier",
+  "surname": "Mendoza"
 }
 
 ###
-PATCH http://{{host}}/users/{{userId}}
+PATCH http://{{host}}/{{prefix}}/users/{{userId}}
 content-type: {{contentType}}
 
 {
@@ -29,7 +31,7 @@ content-type: {{contentType}}
 }
 
 ###
-POST http://{{host}}/auth/login
+POST http://{{host}}/{{prefix}}/auth/login
 content-type: {{contentType}}
 
 {
